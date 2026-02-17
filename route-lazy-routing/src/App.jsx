@@ -2,10 +2,17 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import './App.css';
 
+function delayedImport(factory, ms = 2000) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      factory().then(resolve, reject);
+    }, ms);
+  });
+}
 
-const Profile = lazy(() => import("./components/components.jsx").then(m => ({ default: m.Profile })));
-const DashBoard = lazy(() => import("./components/components.jsx").then(m => ({ default: m.DashBoard })));
-const ContactUS = lazy(() => import("./components/components.jsx").then(m => ({ default: m.Contact })));
+const Profile = lazy(() => delayedImport(() => import("./components/components.jsx").then(m => ({ default: m.Profile })), 2000));
+const DashBoard = lazy(() => delayedImport(() => import("./components/components.jsx").then(m => ({ default: m.DashBoard })), 2000));
+const ContactUS = lazy(() => delayedImport(() => import("./components/components.jsx").then(m => ({ default: m.Contact })), 2000));
 
 function App(){
   return(
